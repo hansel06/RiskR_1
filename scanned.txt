@@ -1,38 +1,13 @@
 {
-  "contract_address": "0x55d398326f99059fF775485246999027B3197955",
+  "contract_address": "0xbb4CdB9CBd36B01bD1cBaeBF2De08d9173bc095c",
   "risk_score": 65,
   "vulnerability_flags": [
     "SOURCE_CODE_NOT_VERIFIED"
   ],
   "liquidity_data": {
-    "pair_address": "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE",
-    "has_liquidity": true,
-    "token_reserve": 12322575.72905784,
-    "bnb_reserve": 16571.08024902241,
-    "total_liquidity_bnb": 33142.16049804482,
-    "total_liquidity_usd": 9942648.149413446,
-    "lp_total_supply": 204289648071099656762985,
-    "concentration_risk": false,
-    "top_lp_holders": [
-      {
-        "address": "0x123...",
-        "percentage": 25.5
-      },
-      {
-        "address": "0x456...",
-        "percentage": 18.2
-      },
-      {
-        "address": "0x789...",
-        "percentage": 15.1
-      }
-    ],
-    "liquidity_locked": {
-      "is_locked": false,
-      "locked_percentage": 0.0,
-      "locked_balances": [],
-      "liquidity_safety_score": 0.0
-    }
+    "error": "No PancakeSwap pair found",
+    "has_liquidity": false,
+    "pair_address": null
   },
   "holder_analysis": {
     "total_holders": 2,
@@ -52,12 +27,12 @@
     ]
   },
   "contract_functions": [],
-  "analysis_summary": "\n🔍 COMPREHENSIVE CONTRACT ANALYSIS\n================================\nContract Address: 0x55d398326f99059fF775485246999027B3197955\nNetwork: BSC\n\n📊 RISK ASSESSMENT:\n------------------\nRisk Score: 65/100\nRisk Level: 🟡 MEDIUM\n\n🚨 VULNERABILITY ANALYSIS:\n-------------------------\n• SOURCE_CODE_NOT_VERIFIED\n\n💰 LIQUIDITY ANALYSIS:\n---------------------\nTotal Liquidity: 33142.16049804482 BNB\nUSD Value: ~$9942648.149413446\n\n👥 HOLDER ANALYSIS:\n------------------\nTop 10 holders: 15.0%\n\n🔧 CONTRACT FUNCTIONS:\n---------------------\nTotal Functions: 0\n\n📋 RECOMMENDATION:\n-----------------\n🟡 MEDIUM RISK: Exercise caution. Some concerning indicators.\n",
+  "analysis_summary": "\n🔍 COMPREHENSIVE CONTRACT ANALYSIS\n================================\nContract Address: 0xbb4CdB9CBd36B01bD1cBaeBF2De08d9173bc095c\nNetwork: BSC\n\n📊 RISK ASSESSMENT:\n------------------\nRisk Score: 65/100\nRisk Level: 🟡 MEDIUM\n\n🚨 VULNERABILITY ANALYSIS:\n-------------------------\n• SOURCE_CODE_NOT_VERIFIED\n\n💰 LIQUIDITY ANALYSIS:\n---------------------\n⚠️ No liquidity found\n\n👥 HOLDER ANALYSIS:\n------------------\nTop 10 holders: 15.0%\n\n🔧 CONTRACT FUNCTIONS:\n---------------------\nTotal Functions: 0\n\n📋 RECOMMENDATION:\n-----------------\n🟡 MEDIUM RISK: Exercise caution. Some concerning indicators.\n",
   "detailed_analysis": {
     "contract_info": {
-      "address": "0x55d398326f99059fF775485246999027B3197955",
+      "address": "0xbb4CdB9CBd36B01bD1cBaeBF2De08d9173bc095c",
       "network": "bsc",
-      "analysis_timestamp": 91722.7795172
+      "analysis_timestamp": 102888.406
     },
     "risk_assessment": {
       "overall_score": 65,
@@ -67,31 +42,13 @@
       "holder_concentration_risk": false
     },
     "liquidity_details": {
-      "pair_address": "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE",
-      "token_reserve": 12322575.72905784,
-      "bnb_reserve": 16571.08024902241,
-      "lp_total_supply": 204289648071099656762985,
-      "top_lp_holders": [
-        {
-          "address": "0x123...",
-          "percentage": 25.5
-        },
-        {
-          "address": "0x456...",
-          "percentage": 18.2
-        },
-        {
-          "address": "0x789...",
-          "percentage": 15.1
-        }
-      ],
-      "liquidity_locked": {
-        "is_locked": false,
-        "locked_percentage": 0.0,
-        "locked_balances": [],
-        "liquidity_safety_score": 0.0
-      },
-      "liquidity_safety_score": 0.0
+      "pair_address": null,
+      "token_reserve": 0,
+      "bnb_reserve": 0,
+      "lp_total_supply": 0,
+      "top_lp_holders": [],
+      "liquidity_locked": {},
+      "liquidity_safety_score": 0
     },
     "holder_details": {
       "total_holders": 2,
