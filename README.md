@@ -1,106 +1,102 @@
-🤖 RiskRobo: Professional README & Installation Guide
-Based on my comprehensive analysis of your codebase, I've created a professional README that explains your entire project and provides detailed step-by-step installation instructions. Here's the complete documentation:
+# 🤖 RiskRobo
 
-📋 Project Overview
 RiskRobo is an advanced Web3 analytics and smart contract security platform that combines:
 
-AI-Powered Research: Multi-source blockchain data analysis
+- **🧠 AI-Powered Research**: Multi-source blockchain data analysis  
+- **🔐 Smart Contract Security**: Automated vulnerability detection and risk scoring  
+- **📈 Real-Time Analytics**: Live market monitoring and DeFi insights  
+- **🤖 Trading Automation**: Smart contract-based trading bot for BSC  
+- **🖥 Comprehensive Dashboard**: Modern React-based user interface  
 
-Smart Contract Security: Automated vulnerability detection and risk scoring
+---
 
-Real-Time Analytics: Live market monitoring and DeFi analytics
+## 🏗 Architecture Components
 
-Trading Automation: Smart contract-based trading bot for BSC
+This monorepo contains six primary components:
 
-Comprehensive Dashboard: Modern React-based user interface
+| Component              | Description                                         |
+|------------------------|-----------------------------------------------------|
+| `AI+frontend`          | AI-powered research frontend/backend (React + Flask) |
+| `backend`              | FastAPI-based blockchain analytics backend          |
+| `contracts`            | Solidity smart contracts for BSC                    |
+| `roborisk-main`        | Main analytics dashboard (React + Vite)             |
+| `scripts`              | Deployment and automation scripts                   |
+| `scripts1`             | Testing and validation scripts                      |
 
-🏗 Architecture Components
-Your project consists of 6 main components:
+---
 
-AI+frontend: AI research interface (React + Flask)
+## 🚀 Installation Guide
 
-backend: Main FastAPI blockchain analysis backend
+### ✅ Prerequisites
 
-contracts: Solidity smart contracts for BSC
+- **Node.js** v16+
+- **Python** 3.8+
+- **8 GB+ RAM**, **10 GB+ Storage**
+- Required API Keys:
+  - BSCScan API Key
+  - CoinMarketCap API Key
+  - GitHub Personal Access Token
+  - OpenRouter API Key (for AI queries)
 
-roborisk-main: Primary analytics dashboard (React + Vite)
+---
 
-scripts: Deployment and utility scripts
+### 📦 Step 1: Clone & Setup Environment
 
-scripts1: Testing and analysis scripts
-
-🚀 Step-by-Step Installation Guide
-Prerequisites
-System Requirements:
-
-Node.js 16+
-
-Python 3.8+
-
-8GB+ RAM
-
-10GB+ storage
-
-Required API Keys:
-
-BSCScan API Key
-
-CoinMarketCap API Key
-
-GitHub Personal Access Token
-
-OpenRouter API Key (for AI features)
-
-Step 1: Environment Setup
-bash
-# Clone your repository
+```bash
+# Clone repository
 git clone <your-repo-url>
 cd hansel06-riskr_1
 
-# Create Python virtual environment
+# Python virtual environment
 python -m venv riskrobo-env
 
 # Activate virtual environment
-# Linux/macOS:
+# Linux/macOS
 source riskrobo-env/bin/activate
-# Windows:
+
+# Windows
 riskrobo-env\Scripts\activate
-Step 2: Backend Installation
+⚙️ Step 2: Install Backends
 bash
-# Install main backend dependencies
+Copy
+Edit
+# Backend
 cd backend
 pip install -r requirements.txt
 
-# Install AI backend dependencies  
+# AI Backend
 cd ../AI+frontend/Backend
 pip install flask flask-cors python-dotenv requests beautifulsoup4
 
 # Return to root
 cd ../../
-Step 3: Frontend Installation
+💻 Step 3: Install Frontends
 bash
-# Install main dashboard dependencies
+Copy
+Edit
+# Main Dashboard
 cd roborisk-main
 npm install
 
-# Install AI research frontend
-cd ../AI+frontend/Frontend  
+# AI Frontend
+cd ../AI+frontend/Frontend
 npm install
 
-# Install smart contract dependencies
+# Return to root
 cd ../../
-npm install
-Step 4: Configuration
+🔐 Step 4: Configuration
+Main Backend
 bash
-# Configure main backend
+Copy
+Edit
 cd backend
 cp environment_template.txt .env
-
-# Edit .env file with your API keys:
 nano .env
-Required Environment Variables:
+Update the .env with:
 
-bash
+dotenv
+Copy
+Edit
 # API Keys
 BSCSCAN_API_KEY=your-bscscan-api-key
 COINMARKETCAP_API_KEY=your-cmc-api-key
@@ -115,145 +111,150 @@ PANCAKE_ROUTER_V2=0x10ED43C718714eb63d5aA57B78B54704E256024E
 # Server Settings
 API_HOST=0.0.0.0
 API_PORT=8000
+AI Backend
 bash
-# Configure AI backend
+Copy
+Edit
 cd ../AI+frontend/Backend/app
 cat > .env << EOF
 OPENROUTER_API_KEY=your-openrouter-key
-CMC_API_KEY=your-cmc-key  
+CMC_API_KEY=your-cmc-key
 GITHUB_TOKEN=your-github-token
 SERPER_API_KEY=your-serper-key
 EOF
-Step 5: Running the Platform
-You need to run 4 services simultaneously. Open 4 terminal windows:
-
-Terminal 1 - Main Backend:
-
+🟢 Step 5: Run Services (4 Terminals)
+Terminal 1 – Main Backend (API)
 bash
+Copy
+Edit
 cd backend
 python start_server.py
-# Runs on: http://localhost:8000
-Terminal 2 - AI Research Backend:
-
+# → http://localhost:8000
+Terminal 2 – AI Research Backend
 bash
+Copy
+Edit
 cd AI+frontend/Backend/app
-python main.py  
-# Runs on: http://localhost:5000
-Terminal 3 - Main Dashboard:
-
+python main.py
+# → http://localhost:5000
+Terminal 3 – Main Dashboard
 bash
+Copy
+Edit
 cd roborisk-main
 npm start
-# Runs on: http://localhost:3000
-Terminal 4 - AI Research Frontend:
-
+# → http://localhost:3000
+Terminal 4 – AI Research Frontend
 bash
+Copy
+Edit
 cd AI+frontend/Frontend
 npm start
-# Runs on: http://localhost:3001
-🎯 Quick Start Script
-For easier management, create this startup script:
-
+# → http://localhost:3001
+🎯 Quick Start Script (Optional)
 bash
-# Create start_riskrobo.sh
+Copy
+Edit
 cat > start_riskrobo.sh << 'EOF'
 #!/bin/bash
-
 echo "🤖 Starting RiskRobo Platform..."
 
-# Activate virtual environment
+# Activate environment
 source riskrobo-env/bin/activate
 
-# Start all services in background
+# Start services
 cd backend && python start_server.py &
 cd ../AI+frontend/Backend/app && python main.py &
 cd ../../../roborisk-main && npm start &
 cd ../AI+frontend/Frontend && npm start &
 
 echo "✅ All services started!"
-echo "📊 Main Dashboard: http://localhost:3000"
-echo "🤖 AI Research: http://localhost:3001"  
-echo "🔗 Backend API: http://localhost:8000"
-echo "Press Ctrl+C to stop all services..."
+echo "📊 Dashboard: http://localhost:3000"
+echo "🤖 AI Research: http://localhost:3001"
+echo "🔗 API: http://localhost:8000"
 wait
 EOF
 
 chmod +x start_riskrobo.sh
 ./start_riskrobo.sh
-🔗 Service Access URLs
-Once running, access these interfaces:
+🔗 Service URLs
+Service	URL	Description
+Main Dashboard	http://localhost:3000	Analytics & scanning UI
+AI Research UI	http://localhost:3001	GPT-based blockchain research
+Main Backend API	http://localhost:8000	FastAPI service
+AI Research API	http://localhost:5000	AI inference backend
+Swagger Docs	http://localhost:8000/docs	API Documentation
 
-Service	URL	Purpose
-Main Dashboard	http://localhost:3000	Analytics & contract scanning
-AI Research	http://localhost:3001	AI-powered blockchain research
-Main API	http://localhost:8000	FastAPI backend
-AI API	http://localhost:5000	AI research backend
-API Docs	http://localhost:8000/docs	Interactive API documentation
 💡 Usage Examples
-Smart Contract Analysis
+1. Smart Contract Scan
 bash
-# Via API
+Copy
+Edit
 curl -X POST "http://localhost:8000/scan-contract" \
   -H "Content-Type: application/json" \
   -d '{"contract_address": "0x...", "network": "bsc"}'
+Or via UI:
+→ http://localhost:3000 → Deep Research tab
 
-# Via Web Interface
-# Go to http://localhost:3000 → Deep Research tab
-AI Research Query
+2. AI Research Query
 bash
-# Via API
+Copy
+Edit
 curl -X POST "http://localhost:5000/ask" \
   -H "Content-Type: application/json" \
   -d '{
     "messages": [{"role": "user", "content": "Analyze DeFi trends"}],
-    "coin_name": "Ethereum", 
+    "coin_name": "Ethereum",
     "coin_symbol": "ETH"
   }'
 🧪 Testing
 bash
-# Test contract analysis
+Copy
+Edit
 cd scripts1
+
+# Contract scan test
 python test_comprehensive_scan.py
 
-# Test API endpoints
-python test_api.py  
+# Backend endpoint test
+python test_api.py
 
-# Test complete workflow
+# Full workflow test
 python test_complete_workflow.py
 🚨 Troubleshooting
-Port conflicts:
+Issue	Fix Command / Steps
+Port conflicts	`sudo lsof -ti:3000,5000,8000
+API key not loading	`cat backend/.env
+File permission	chmod -R 755 /path/to/project
 
-bash
-# Kill processes on required ports
-sudo lsof -ti:3000,5000,8000 | xargs sudo kill -9
-API key issues:
+✅ Success Checklist
+All terminals say "Server running..."
 
-bash
-# Verify environment variables
-cat backend/.env | grep API_KEY
-Permission errors:
+URLs return valid responses
 
-bash
-# Fix file permissions
-chmod -R 755 /path/to/project/directory
-🎉 Success Indicators
-You'll know everything is working when:
+No runtime errors
 
-✅ All 4 terminals show "Server running" messages
-✅ No error messages in any terminal
-✅ All URLs respond with proper interfaces
-✅ Contract analysis returns risk scores
-✅ AI queries return intelligent responses
+Contract scan → shows risk report
+
+AI queries → return relevant analysis
 
 📞 Support
-If you encounter issues:
+If something isn’t working:
 
-Check all API keys are valid
+✅ Check your .env variables
 
-Ensure all ports are available
+✅ Confirm services are running on correct ports
 
-Verify Python virtual environment is activated
+✅ Inspect logs for error messages
 
-Check terminal outputs for specific error messages
+✅ Restart with: ./start_riskrobo.sh
 
-Your RiskRobo platform is now ready for blockchain analytics and smart contract security analysis! 🚀
+🚀 RiskRobo is now ready to analyze smart contracts and protect the DeFi world!
+
+yaml
+Copy
+Edit
+
+---
+
+Let me know if you’d like this converted into a downloadable `README.md` file or want badges (build, license, version) added at the top.
