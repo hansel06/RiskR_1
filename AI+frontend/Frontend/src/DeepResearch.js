@@ -87,6 +87,15 @@ function DeepResearch() {
     return '#28a745'; // Green
   };
 
+  // Utility to clean irrelevant lines from summary
+  const cleanIrrelevantLines = (summary) => {
+    if (!summary) return '';
+    return summary
+      .split('\n')
+      .filter(line => !line.trim().startsWith('Irrelevant to crypto/finance:'))
+      .join('\n');
+  };
+
   return (
     <div style={{
       maxWidth: 800,
@@ -450,7 +459,7 @@ function DeepResearch() {
                       color: "#155724",
                       fontSize: "14px"
                     }}>
-                      {aiSummary.summary}
+                      {cleanIrrelevantLines(aiSummary.summary)}
                     </div>
                   </div>
                   

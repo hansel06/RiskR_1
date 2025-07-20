@@ -212,3 +212,136 @@ class ContractAnalyzer:
         except Exception as e:
             print(f"Error fetching holders: {e}")
             return None
+
+    async def get_contract_functions(self, contract_address: str) -> List[str]:
+        """Get function signatures from a contract"""
+        try:
+            # Get contract ABI from BscScan
+            params = {
+                'module': 'contract',
+                'action': 'getabi',
+                'address': contract_address,
+                'apikey': self.bscscan_api_key
+            }
+            
+            response = requests.get(self.bscscan_base_url, params=params, timeout=10)
+            data = response.json()
+            
+            if data['status'] == '1' and data['result'] != 'Contract source code not verified':
+                import json
+                abi = json.loads(data['result'])
+                functions = []
+                
+                for item in abi:
+                    if item.get('type') == 'function':
+                        # Create function signature
+                        inputs = ','.join([input_param.get('type', '') for input_param in item.get('inputs', [])])
+                        signature = f"{item.get('name', '')}({inputs})"
+                        functions.append(signature)
+                
+                return functions
+            else:
+                # Fallback: try to get bytecode and extract function selectors
+                return await self._extract_functions_from_bytecode(contract_address)
+                
+        except Exception as e:
+            print(f"Error getting contract functions: {e}")
+            return []
+
+    async def _extract_functions_from_bytecode(self, contract_address: str) -> List[str]:
+        """Extract function signatures from contract bytecode (fallback method)"""
+        try:
+            # Get contract bytecode
+            bytecode = self.w3.eth.get_code(contract_address)
+            if not bytecode or bytecode == b'':
+                return []
+            
+            # This is a simplified approach - in production you'd want more sophisticated
+            # bytecode analysis to extract function selectors
+            functions = []
+            
+            # Common function selectors (first 4 bytes of keccak256 hash of function signature)
+            common_selectors = {
+                '0xa9059cbb': 'transfer(address,uint256)',
+                '0x23b872dd': 'transferFrom(address,address,uint256)',
+                '0x095ea7b3': 'approve(address,uint256)',
+                '0xdd62ed3e': 'allowance(address,address)',
+                '0x70a08231': 'balanceOf(address)',
+                '0x18160ddd': 'totalSupply()',
+                '0x40c10f19': 'mint(address,uint256)',
+                '0x42966c68': 'burn(uint256)',
+                '0x8da5cb5b': 'owner()',
+                '0xf2fde38b': 'transferOwnership(address)',
+                '0x715018a6': 'renounceOwnership()',
+                '0x8456cb59': 'pause()',
+                '0x3f4ba83a': 'unpause()'
+            }
+            
+            bytecode_hex = bytecode.hex()
+            for selector, signature in common_selectors.items():
+                if selector in bytecode_hex:
+                    functions.append(signature)
+            
+            return functions
+            
+        except Exception as e:
+            print(f"Error extracting functions from bytecode: {e}")
+            return []
+
+    async def find_similar_contracts(self, target_address: str, target_functions: List[str], max_results: int = 10) -> List[Dict[str, Any]]:
+        """Find contracts with similar function signatures"""
+        try:
+            if not target_functions:
+                return []
+            
+            # This is a simplified implementation
+            # In production, you'd want to:
+            # 1. Use a database of known contract ABIs
+            # 2. Use blockchain indexing services
+            # 3. Implement more sophisticated similarity algorithms
+            
+            similar_contracts = []
+            
+            # For demo purposes, we'll simulate finding similar contracts
+            # In reality, you'd query a database or use blockchain indexing services
+            
+            # Simulate finding contracts with similar functions
+            for i in range(min(max_results, 5)):  # Limit to 5 for demo
+                # Generate a mock similar contract
+                similarity_percentage = max(30, 100 - (i * 15))  # Decreasing similarity
+                matching_functions = target_functions[:max(1, len(target_functions) - i)]
+                
+                similar_contract = {
+                    "address": f"0x{hex(i+1000)[2:].zfill(40)}",  # Mock address
+                    "similarity_percentage": similarity_percentage,
+                    "matching_functions": matching_functions,
+                    "total_functions": len(matching_functions),
+                    "risk_score": self._calculate_similarity_risk(similarity_percentage),
+                    "last_transaction": "2024-01-15",  # Mock data
+                    "creation_date": "2024-01-01",     # Mock data
+                    "verified": True if similarity_percentage > 70 else False
+                }
+                
+                similar_contracts.append(similar_contract)
+            
+            # Sort by similarity percentage (highest first)
+            similar_contracts.sort(key=lambda x: x['similarity_percentage'], reverse=True)
+            
+            return similar_contracts
+            
+        except Exception as e:
+            print(f"Error finding similar contracts: {e}")
+            return []
+
+    def _calculate_similarity_risk(self, similarity_percentage: int) -> int:
+        """Calculate risk score based on similarity percentage"""
+        if similarity_percentage >= 90:
+            return 85  # Very high risk - likely a clone
+        elif similarity_percentage >= 80:
+            return 70  # High risk - probable fork
+        elif similarity_percentage >= 60:
+            return 50  # Medium risk - similar functionality
+        elif similarity_percentage >= 40:
+            return 30  # Low risk - some similarities
+        else:
+            return 20  # Very low risk - minimal similarities

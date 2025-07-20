@@ -1,0 +1,120 @@
+{
+  "contract_address": "0xA1eD4854920a65B60108e3713c0e905b37B48133",
+  "risk_score": 65,
+  "vulnerability_flags": [
+    "SOURCE_CODE_NOT_VERIFIED"
+  ],
+  "liquidity_data": {
+    "pair_address": "0xd6E8F53E27f5eE34D2d9Abb2e4c5A164527D46aa",
+    "has_liquidity": true,
+    "token_reserve": 746.6209909534185,
+    "bnb_reserve": 1.369566562080326,
+    "total_liquidity_bnb": 2.739133124160652,
+    "total_liquidity_usd": 821.7399372481956,
+    "lp_total_supply": 31486297704542239189,
+    "concentration_risk": false,
+    "top_lp_holders": [
+      {
+        "address": "0x123...",
+        "percentage": 25.5
+      },
+      {
+        "address": "0x456...",
+        "percentage": 18.2
+      },
+      {
+        "address": "0x789...",
+        "percentage": 15.1
+      }
+    ],
+    "liquidity_locked": {
+      "is_locked": false,
+      "locked_percentage": 0.0,
+      "locked_balances": [],
+      "liquidity_safety_score": 0.0
+    }
+  },
+  "holder_analysis": {
+    "total_holders": 2,
+    "top_1_percentage": 10.0,
+    "top_5_percentage": 15.0,
+    "top_10_percentage": 15.0,
+    "concentration_risk": false,
+    "holders": [
+      {
+        "address": "0x123...",
+        "balance": 100000
+      },
+      {
+        "address": "0x456...",
+        "balance": 50000
+      }
+    ]
+  },
+  "contract_functions": [],
+  "analysis_summary": "\n\ud83d\udd0d COMPREHENSIVE CONTRACT ANALYSIS\n================================\nContract Address: 0xA1eD4854920a65B60108e3713c0e905b37B48133\nNetwork: BSC\n\n\ud83d\udcca RISK ASSESSMENT:\n------------------\nRisk Score: 65/100\nRisk Level: \ud83d\udfe1 MEDIUM\n\n\ud83d\udea8 VULNERABILITY ANALYSIS:\n-------------------------\n\u2022 SOURCE_CODE_NOT_VERIFIED\n\n\ud83d\udcb0 LIQUIDITY ANALYSIS:\n---------------------\nTotal Liquidity: 2.739133124160652 BNB\nUSD Value: ~$821.7399372481956\n\n\ud83d\udc65 HOLDER ANALYSIS:\n------------------\nTop 10 holders: 15.0%\n\n\ud83d\udd27 CONTRACT FUNCTIONS:\n---------------------\nTotal Functions: 0\n\n\ud83d\udccb RECOMMENDATION:\n-----------------\n\ud83d\udfe1 MEDIUM RISK: Exercise caution. Some concerning indicators.\n",
+  "detailed_analysis": {
+    "contract_info": {
+      "address": "0xA1eD4854920a65B60108e3713c0e905b37B48133",
+      "network": "bsc",
+      "analysis_timestamp": 77987.421
+    },
+    "risk_assessment": {
+      "overall_score": 65,
+      "risk_level": "MEDIUM",
+      "vulnerability_count": 1,
+      "liquidity_risk": false,
+      "holder_concentration_risk": false
+    },
+    "liquidity_details": {
+      "pair_address": "0xd6E8F53E27f5eE34D2d9Abb2e4c5A164527D46aa",
+      "token_reserve": 746.6209909534185,
+      "bnb_reserve": 1.369566562080326,
+      "lp_total_supply": 31486297704542239189,
+      "top_lp_holders": [
+        {
+          "address": "0x123...",
+          "percentage": 25.5
+        },
+        {
+          "address": "0x456...",
+          "percentage": 18.2
+        },
+        {
+          "address": "0x789...",
+          "percentage": 15.1
+        }
+      ],
+      "liquidity_locked": {
+        "is_locked": false,
+        "locked_percentage": 0.0,
+        "locked_balances": [],
+        "liquidity_safety_score": 0.0
+      },
+      "liquidity_safety_score": 0.0
+    },
+    "holder_details": {
+      "total_holders": 2,
+      "top_1_percentage": 10.0,
+      "top_5_percentage": 15.0,
+      "top_10_percentage": 15.0,
+      "holder_list": [
+        {
+          "address": "0x123...",
+          "balance": 100000
+        },
+        {
+          "address": "0x456...",
+          "balance": 50000
+        }
+      ]
+    },
+    "function_analysis": {
+      "total_functions": 0,
+      "function_list": [],
+      "has_transfer_function": false,
+      "has_mint_function": false,
+      "has_burn_function": false
+    }
+  }
+}

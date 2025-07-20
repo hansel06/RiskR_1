@@ -98,6 +98,14 @@ User Query: {user_query if user_query else "Please provide a comprehensive analy
     except Exception as e:
         return f"Error generating summary: {str(e)}"
 
+def clean_irrelevant_lines(summary: str) -> str:
+    lines = summary.splitlines()
+    cleaned = [
+        line for line in lines
+        if not line.strip().startswith("Irrelevant to crypto/finance:")
+    ]
+    return "\n".join(cleaned)
+
 @app.route('/summarize-contract', methods=['POST'])
 def summarize_contract():
     """Summarize the scanned contract data using AI"""
@@ -116,6 +124,7 @@ def summarize_contract():
         
         # Generate AI summary
         summary = summarize_contract_analysis(contract_data, user_query)
+        summary = clean_irrelevant_lines(summary)
         
         return jsonify({
             "summary": summary,
