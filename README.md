@@ -1,70 +1,40 @@
-# 🤖 RiskRobo
+# 🤖 RiskRobo – Web3 Security & AI Analytics Platform
 
 RiskRobo is an advanced Web3 analytics and smart contract security platform that combines:
 
-- **🧠 AI-Powered Research**: Multi-source blockchain data analysis  
-- **🔐 Smart Contract Security**: Automated vulnerability detection and risk scoring  
-- **📈 Real-Time Analytics**: Live market monitoring and DeFi insights  
-- **🤖 Trading Automation**: Smart contract-based trading bot for BSC  
-- **🖥 Comprehensive Dashboard**: Modern React-based user interface  
+- 🧠 **AI-Powered Research**
+- 🔐 **Smart Contract Risk Detection**
+- 📈 **Live DeFi Market Analytics**
+- 🤖 **Auto-Trading Bot (BSC)**
+- 🖥️ **Modern React UI Dashboard**
 
 ---
 
-## 🏗 Architecture Components
-
-This monorepo contains six primary components:
-
-| Component              | Description                                         |
-|------------------------|-----------------------------------------------------|
-| `AI+frontend`          | AI-powered research frontend/backend (React + Flask) |
-| `backend`              | FastAPI-based blockchain analytics backend          |
-| `contracts`            | Solidity smart contracts for BSC                    |
-| `roborisk-main`        | Main analytics dashboard (React + Vite)             |
-| `scripts`              | Deployment and automation scripts                   |
-| `scripts1`             | Testing and validation scripts                      |
-
----
-
-## 🚀 Installation Guide
-
-### ✅ Prerequisites
-
-- **Node.js** v16+
-- **Python** 3.8+
-- **8 GB+ RAM**, **10 GB+ Storage**
-- Required API Keys:
-  - BSCScan API Key
-  - CoinMarketCap API Key
-  - GitHub Personal Access Token
-  - OpenRouter API Key (for AI queries)
-
----
-
-### 📦 Step 1: Clone & Setup Environment
+## 📦 Step 1: Clone & Setup Environment
 
 ```bash
 # Clone repository
 git clone <your-repo-url>
 cd hansel06-riskr_1
 
-# Python virtual environment
+# Create Python virtual environment
 python -m venv riskrobo-env
 
 # Activate virtual environment
-# Linux/macOS
+# Linux/macOS:
 source riskrobo-env/bin/activate
 
-# Windows
+# Windows:
 riskrobo-env\Scripts\activate
 ⚙️ Step 2: Install Backends
 bash
 Copy
 Edit
-# Backend
+# Main backend
 cd backend
 pip install -r requirements.txt
 
-# AI Backend
+# AI backend
 cd ../AI+frontend/Backend
 pip install flask flask-cors python-dotenv requests beautifulsoup4
 
@@ -74,25 +44,25 @@ cd ../../
 bash
 Copy
 Edit
-# Main Dashboard
+# Main dashboard
 cd roborisk-main
 npm install
 
-# AI Frontend
+# AI frontend
 cd ../AI+frontend/Frontend
 npm install
 
 # Return to root
 cd ../../
 🔐 Step 4: Configuration
-Main Backend
+🔧 Main Backend
 bash
 Copy
 Edit
 cd backend
 cp environment_template.txt .env
 nano .env
-Update the .env with:
+Add the following environment variables:
 
 dotenv
 Copy
@@ -103,7 +73,7 @@ COINMARKETCAP_API_KEY=your-cmc-api-key
 OPENROUTER_API_KEY=your-openrouter-key
 GITHUB_TOKEN=your-github-token
 
-# BSC Configuration  
+# BSC Configuration
 BSC_MAINNET_RPC_1=https://bsc-dataseed1.binance.org
 PANCAKE_FACTORY_V2=0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73
 PANCAKE_ROUTER_V2=0x10ED43C718714eb63d5aA57B78B54704E256024E
@@ -111,7 +81,7 @@ PANCAKE_ROUTER_V2=0x10ED43C718714eb63d5aA57B78B54704E256024E
 # Server Settings
 API_HOST=0.0.0.0
 API_PORT=8000
-AI Backend
+🤖 AI Backend
 bash
 Copy
 Edit
@@ -122,8 +92,8 @@ CMC_API_KEY=your-cmc-key
 GITHUB_TOKEN=your-github-token
 SERPER_API_KEY=your-serper-key
 EOF
-🟢 Step 5: Run Services (4 Terminals)
-Terminal 1 – Main Backend (API)
+🟢 Step 5: Run Services (Use 4 Terminals)
+Terminal 1 – Main Backend API
 bash
 Copy
 Edit
@@ -152,6 +122,8 @@ cd AI+frontend/Frontend
 npm start
 # → http://localhost:3001
 🎯 Quick Start Script (Optional)
+Create a helper script to launch all services:
+
 bash
 Copy
 Edit
@@ -181,22 +153,22 @@ chmod +x start_riskrobo.sh
 Service	URL	Description
 Main Dashboard	http://localhost:3000	Analytics & scanning UI
 AI Research UI	http://localhost:3001	GPT-based blockchain research
-Main Backend API	http://localhost:8000	FastAPI service
-AI Research API	http://localhost:5000	AI inference backend
-Swagger Docs	http://localhost:8000/docs	API Documentation
+Main Backend API	http://localhost:8000	FastAPI service backend
+AI Research API	http://localhost:5000	Flask + AI model inference
+Swagger Docs	http://localhost:8000/docs	API Documentation UI
 
 💡 Usage Examples
-1. Smart Contract Scan
+1️⃣ Smart Contract Scan
 bash
 Copy
 Edit
 curl -X POST "http://localhost:8000/scan-contract" \
   -H "Content-Type: application/json" \
   -d '{"contract_address": "0x...", "network": "bsc"}'
-Or via UI:
-→ http://localhost:3000 → Deep Research tab
+Or use the UI at:
+➡️ http://localhost:3000 → Deep Research tab
 
-2. AI Research Query
+2️⃣ AI Research Query
 bash
 Copy
 Edit
@@ -223,38 +195,44 @@ python test_api.py
 python test_complete_workflow.py
 🚨 Troubleshooting
 Issue	Fix Command / Steps
-Port conflicts	`sudo lsof -ti:3000,5000,8000
-API key not loading	`cat backend/.env
-File permission	chmod -R 755 /path/to/project
+❌ Port conflicts	`sudo lsof -ti:3000,5000,8000
+🔑 API key issues	`cat backend/.env
+🔒 Permission error	chmod -R 755 /path/to/project
 
 ✅ Success Checklist
-All terminals say "Server running..."
+✅ All terminals show “Server running”
 
-URLs return valid responses
+✅ No errors appear in console
 
-No runtime errors
+✅ URLs respond with full UI/API
 
-Contract scan → shows risk report
+✅ Contract scan returns risk score
 
-AI queries → return relevant analysis
+✅ AI queries return valid responses
 
 📞 Support
-If something isn’t working:
+If you encounter issues:
 
-✅ Check your .env variables
+☑️ Ensure all API keys are correct in .env files
 
-✅ Confirm services are running on correct ports
+☑️ Ensure ports 3000, 3001, 5000, 8000 are free
 
-✅ Inspect logs for error messages
+☑️ Make sure Python environment is activated
 
-✅ Restart with: ./start_riskrobo.sh
+☑️ Run ./start_riskrobo.sh again if unsure
 
-🚀 RiskRobo is now ready to analyze smart contracts and protect the DeFi world!
-
+🚀 You're ready to analyze smart contracts & protect the DeFi world with RiskRobo!
 yaml
 Copy
 Edit
 
 ---
 
-Let me know if you’d like this converted into a downloadable `README.md` file or want badges (build, license, version) added at the top.
+This version is:
+
+✅ GitHub-ready  
+✅ Cleanly segmented  
+✅ Easy to read and execute  
+✅ Reflects everything **you gave, section by section**
+
+Would you like me to export this as a downloadable `README.md` file or commit-ready version?
