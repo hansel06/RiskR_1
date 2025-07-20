@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core Background Colors */
+    --color-background: #0A0A0A; /* Deep black */
+    --color-foreground: #FFFFFF; /* Pure white */
+    --color-surface: #1A1A1A; /* Charcoal gray */
+    --color-surface-foreground: #FFFFFF; /* Pure white */
+    
+    /* Border and Input Colors */
+    --color-border: rgba(255, 255, 255, 0.1); /* Subtle white border */
+    --color-input: #1A1A1A; /* Charcoal gray */
+    --color-ring: #00FFFF; /* Electric cyan */
+    
+    /* Card and Popover Colors */
+    --color-card: #1A1A1A; /* Charcoal gray */
+    --color-card-foreground: #FFFFFF; /* Pure white */
+    --color-popover: #1A1A1A; /* Charcoal gray */
+    --color-popover-foreground: #FFFFFF; /* Pure white */
+    
+    /* Muted Colors */
+    --color-muted: #2A2A2A; /* Darker gray */
+    --color-muted-foreground: #A0A0A0; /* Medium gray */
+    
+    /* Primary Colors */
+    --color-primary: #00FFFF; /* Electric cyan */
+    --color-primary-foreground: #0A0A0A; /* Deep black */
+    
+    /* Secondary Colors */
+    --color-secondary: #8A2BE2; /* Electric purple */
+    --color-secondary-foreground: #FFFFFF; /* Pure white */
+    
+    /* Accent Colors */
+    --color-accent: #39FF14; /* Neon green */
+    --color-accent-foreground: #0A0A0A; /* Deep black */
+    
+    /* Success Colors */
+    --color-success: #39FF14; /* Neon green */
+    --color-success-foreground: #0A0A0A; /* Deep black */
+    
+    /* Warning Colors */
+    --color-warning: #FFD700; /* Electric gold */
+    --color-warning-foreground: #0A0A0A; /* Deep black */
+    
+    /* Error/Destructive Colors */
+    --color-error: #FF1493; /* Hot pink */
+    --color-error-foreground: #FFFFFF; /* Pure white */
+    --color-destructive: #FF1493; /* Hot pink */
+    --color-destructive-foreground: #FFFFFF; /* Pure white */
+    
+    /* Radius */
+    --radius: 0.5rem;
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  }
+  
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
+  }
+  
+  .glow-green {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+  }
+  
+  .backdrop-blur-glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .transition-neon {
+    transition: all 150ms ease-out;
+  }
+  
+  .transition-layout {
+    transition: all 300ms ease-in-out;
+  }
+
+  /* New preloader animations */
+  .animate-logo-pulse {
+    animation: logo-pulse 3s ease-in-out infinite;
+  }
+
+  .bg-gradient-radial {
+    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+}
+
+@layer components {
+  /* Preloader Animation Keyframes */
+  @keyframes logo-pulse {
+    0%, 100% {
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    50% {
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-10px) rotate(120deg);
+    }
+    66% {
+      transform: translateY(5px) rotate(240deg);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    }
+    to {
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+    }
+  }
+
+  /* Loading bar animation */
+  .loading-bar-glow {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .loading-bar-glow::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    animation: loading-shine 2s infinite;
+  }
+
+  @keyframes loading-shine {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+}
