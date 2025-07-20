@@ -3,10 +3,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import Icon from "./components/AppIcon";
 import Routes from "./Routes";
 import { SidebarProvider } from "./components/ui/SidebarContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showTransition, setShowTransition] = useState(false);
+
+  // --- Add this block to force redirect to landing page on first load/reload ---
+  const location = typeof window !== 'undefined' ? window.location : null;
+  if (location && location.pathname !== "/") {
+    window.location.replace("/");
+  }
+  // --- End block ---
 
   useEffect(() => {
     // Initial loading phase - 1.5 seconds

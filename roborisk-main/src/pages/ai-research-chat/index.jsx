@@ -7,6 +7,7 @@ import ConversationSidebar from './components/ConversationSidebar';
 import WelcomeScreen from './components/WelcomeScreen';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
+import DeepResearch from './components/DeepResearch';
 
 const AIResearchChat = () => {
   const [messages, setMessages] = useState([]);
@@ -16,6 +17,14 @@ const AIResearchChat = () => {
   const [activeConversationId, setActiveConversationId] = useState(null);
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
+
+  // NEW: Real backend integration state variables
+  const [coinName, setCoinName] = useState('');
+  const [coinSymbol, setCoinSymbol] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // NEW: Tab navigation state
+  const [activeTab, setActiveTab] = useState('chat'); // 'chat' or 'deepresearch'
 
   // Mock conversations data
   const [conversations, setConversations] = useState([
@@ -65,7 +74,11 @@ const AIResearchChat = () => {
     scrollToBottom();
   }, [messages]);
 
+  // NEW: Real backend integration for chat
   const handleSendMessage = async (content) => {
+    // Only block if neither chat nor (coinName and coinSymbol) are filled
+    if (!(content.trim() || (coinName.trim() && coinSymbol.trim()))) return;
+
     const userMessage = {
       id: Date.now(),
       content,
@@ -75,19 +88,48 @@ const AIResearchChat = () => {
 
     setMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
+    setLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      // Build the messages array for backend
+      const backendMessages = [
+        { role: "system", content: "You are a helpful assistant." },
+        ...messages.filter(msg => !msg.isUser).map(msg => ({ role: "assistant", content: msg.content })),
+        { role: "user", content }
+      ];
+
+      const res = await fetch("http://127.0.0.1:5000/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: backendMessages.slice(1),
+          coin_name: coinName,
+          coin_symbol: coinSymbol
+        })
+      });
+
+      const data = await res.json();
+      
       const aiResponse = {
         id: Date.now() + 1,
-        content: generateAIResponse(content),
+        content: data.summary,
         isUser: false,
-        timestamp: new Date(),
-        attachment: Math.random() > 0.7 ? generateAttachment() : null
+        timestamp: new Date()
       };
+      
       setMessages(prev => [...prev, aiResponse]);
-      setIsTyping(false);
-    }, 2000);
+    } catch (err) {
+      const errorResponse = {
+        id: Date.now() + 1,
+        content: "Error: " + err.message,
+        isUser: false,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorResponse]);
+    }
+    
+    setIsTyping(false);
+    setLoading(false);
   };
 
   const generateAIResponse = (query) => {
@@ -187,98 +229,106 @@ const AIResearchChat = () => {
 
   return (
     <DashboardLayoutContainer>
-      <div className="h-[calc(100vh-4rem)] flex flex-col bg-background">
-        {/* Chat Header */}
-        <ChatHeader
-          onNewChat={handleNewChat}
-          onSearchToggle={() => setShowSearch(!showSearch)}
-          onExportChat={handleExportChat}
-          conversationCount={conversations.length}
-        />
-
-        {/* Search Bar */}
-        {showSearch && (
-          <div className="p-4 border-b border-border bg-surface/50">
-            <div className="relative">
-              <Icon name="Search" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search through conversation history..."
-                className="w-full pl-10 pr-4 py-2 bg-input border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50"
+      <div className="h-[calc(100vh-4rem)] flex flex-col bg-[#111]">
+        {/* Tab Navigation */}
+        <div className="flex justify-center gap-4 py-4 bg-[#181818] border-b border-border">
+          <button
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${activeTab === 'chat' ? 'bg-blue-600 text-white' : 'bg-[#232b3b] text-blue-200 hover:bg-blue-800'}`}
+            onClick={() => setActiveTab('chat')}
+          >
+            💬 Chat
+          </button>
+          <button
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${activeTab === 'deepresearch' ? 'bg-blue-600 text-white' : 'bg-[#232b3b] text-blue-200 hover:bg-blue-800'}`}
+            onClick={() => setActiveTab('deepresearch')}
+          >
+            🔍 Deep Research
+          </button>
+        </div>
+        {/* Content Area */}
+        {activeTab === 'chat' ? (
+          <>
+            {/* Main Chat Area (no header) */}
+            <div className="flex-1 flex">
+              {/* Conversation Sidebar */}
+              <ConversationSidebar
+                isOpen={showSidebar}
+                onClose={() => setShowSidebar(false)}
+                conversations={conversations}
+                activeConversationId={activeConversationId}
+                onSelectConversation={handleSelectConversation}
+                onDeleteConversation={handleDeleteConversation}
               />
-            </div>
-          </div>
-        )}
-
-        {/* Main Chat Area */}
-        <div className="flex-1 flex">
-          {/* Conversation Sidebar */}
-          <ConversationSidebar
-            isOpen={showSidebar}
-            onClose={() => setShowSidebar(false)}
-            conversations={conversations}
-            activeConversationId={activeConversationId}
-            onSelectConversation={handleSelectConversation}
-            onDeleteConversation={handleDeleteConversation}
-          />
-
-          {/* Chat Content */}
-          <div className="flex-1 flex flex-col">
-            {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto">
-              {isWelcomeScreen ? (
-                <WelcomeScreen onStartChat={handleStartChat} />
-              ) : (
-                <div className="p-4 space-y-4">
-                  {messages.map((message) => (
-                    <ChatMessage
-                      key={message.id}
-                      message={message}
-                      isUser={message.isUser}
-                      timestamp={message.timestamp}
-                    />
-                  ))}
-                  
-                  {isTyping && (
-                    <ChatMessage isTyping={true} />
+              {/* Chat Content */}
+              <div className="flex-1 flex flex-col">
+                {/* Messages Area */}
+                <div className="flex-1 overflow-y-auto">
+                  {isWelcomeScreen ? (
+                    <WelcomeScreen onStartChat={handleStartChat} />
+                  ) : (
+                    <div className="p-4 space-y-4">
+                      {messages.map((message) => (
+                        <ChatMessage
+                          key={message.id}
+                          message={message}
+                          isUser={message.isUser}
+                          timestamp={message.timestamp}
+                        />
+                      ))}
+                      {isTyping && (
+                        <ChatMessage isTyping={true} />
+                      )}
+                      <div ref={messagesEndRef} />
+                    </div>
                   )}
-                  
-                  <div ref={messagesEndRef} />
                 </div>
-              )}
+                {/* Chat Input */}
+                <ChatInput
+                  onSendMessage={handleSendMessage}
+                  isTyping={isTyping}
+                  onRef={(ref) => chatInputRef.current = ref}
+                  coinName={coinName}
+                  setCoinName={setCoinName}
+                  coinSymbol={coinSymbol}
+                  setCoinSymbol={setCoinSymbol}
+                />
+              </div>
             </div>
-
-            {/* Chat Input */}
-            <ChatInput
-              onSendMessage={handleSendMessage}
-              isTyping={isTyping}
-              onRef={(ref) => chatInputRef.current = ref}
-            />
-          </div>
-        </div>
-
-        {/* Floating Action Buttons */}
-        <div className="fixed bottom-24 left-6 z-50 lg:hidden">
-          <Button
-            onClick={() => setShowSidebar(true)}
-            size="icon"
-            className="w-12 h-12 rounded-full glow-purple"
-          >
-            <Icon name="MessageSquare" size={20} />
-          </Button>
-        </div>
-
-        {/* Desktop Sidebar Toggle */}
-        <div className="hidden lg:block fixed left-6 top-1/2 transform -translate-y-1/2 z-50">
-          <Button
-            onClick={() => setShowSidebar(!showSidebar)}
-            variant="outline"
-            size="icon"
-            className="glow-cyan"
-          >
-            <Icon name={showSidebar ? "ChevronLeft" : "MessageSquare"} size={20} />
-          </Button>
-        </div>
+            {/* Floating New Chat Button (bottom right) */}
+            <div className="fixed bottom-8 right-8 z-50">
+              <Button
+                onClick={handleNewChat}
+                size="icon"
+                className="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg flex items-center justify-center"
+                aria-label="New Chat"
+              >
+                <Icon name="Plus" size={28} />
+              </Button>
+            </div>
+            {/* Floating Sidebar Toggle (unchanged) */}
+            <div className="fixed bottom-24 left-6 z-50 lg:hidden">
+              <Button
+                onClick={() => setShowSidebar(true)}
+                size="icon"
+                className="w-12 h-12 rounded-full glow-purple"
+              >
+                <Icon name="MessageSquare" size={20} />
+              </Button>
+            </div>
+            <div className="hidden lg:block fixed left-6 top-1/2 transform -translate-y-1/2 z-50">
+              <Button
+                onClick={() => setShowSidebar(!showSidebar)}
+                variant="outline"
+                size="icon"
+                className="glow-cyan"
+              >
+                <Icon name={showSidebar ? "ChevronLeft" : "MessageSquare"} size={20} />
+              </Button>
+            </div>
+          </>
+        ) : (
+          <DeepResearch />
+        )}
       </div>
     </DashboardLayoutContainer>
   );

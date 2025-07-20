@@ -1,17 +1,17 @@
 {
-  "contract_address": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+  "contract_address": "0x55d398326f99059fF775485246999027B3197955",
   "risk_score": 65,
   "vulnerability_flags": [
     "SOURCE_CODE_NOT_VERIFIED"
   ],
   "liquidity_data": {
-    "pair_address": "0x0eD7e52944161450477ee417DE9Cd3a859b14fD0",
+    "pair_address": "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE",
     "has_liquidity": true,
-    "token_reserve": 4086590.1824879195,
-    "bnb_reserve": 14741.046311329974,
-    "total_liquidity_bnb": 29482.092622659948,
-    "total_liquidity_usd": 8844627.786797984,
-    "lp_total_supply": 216590602614304380352234,
+    "token_reserve": 12322575.72905784,
+    "bnb_reserve": 16571.08024902241,
+    "total_liquidity_bnb": 33142.16049804482,
+    "total_liquidity_usd": 9942648.149413446,
+    "lp_total_supply": 204289648071099656762985,
     "concentration_risk": false,
     "top_lp_holders": [
       {
@@ -28,19 +28,10 @@
       }
     ],
     "liquidity_locked": {
-      "is_locked": true,
+      "is_locked": false,
       "locked_percentage": 0.0,
-      "locked_balances": [
-        {
-          "lock_contract": "0x407993575c91ce7643a4d4cCACc9A98c36eE1BBE",
-          "locked_amount": 150551182051174437
-        },
-        {
-          "lock_contract": "0xC765bddB93b0D1c1A88282BA0fa6B2d00E3e0c83",
-          "locked_amount": 2528406629216816997
-        }
-      ],
-      "liquidity_safety_score": 0.0012368762905372072
+      "locked_balances": [],
+      "liquidity_safety_score": 0.0
     }
   },
   "holder_analysis": {
@@ -61,12 +52,12 @@
     ]
   },
   "contract_functions": [],
-  "analysis_summary": "\n🔍 COMPREHENSIVE CONTRACT ANALYSIS\n================================\nContract Address: 0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82\nNetwork: BSC\n\n📊 RISK ASSESSMENT:\n------------------\nRisk Score: 65/100\nRisk Level: 🟡 MEDIUM\n\n🚨 VULNERABILITY ANALYSIS:\n-------------------------\n• SOURCE_CODE_NOT_VERIFIED\n\n💰 LIQUIDITY ANALYSIS:\n---------------------\nTotal Liquidity: 29482.092622659948 BNB\nUSD Value: ~$8844627.786797984\n\n👥 HOLDER ANALYSIS:\n------------------\nTop 10 holders: 15.0%\n\n🔧 CONTRACT FUNCTIONS:\n---------------------\nTotal Functions: 0\n\n📋 RECOMMENDATION:\n-----------------\n🟡 MEDIUM RISK: Exercise caution. Some concerning indicators.\n",
+  "analysis_summary": "\n🔍 COMPREHENSIVE CONTRACT ANALYSIS\n================================\nContract Address: 0x55d398326f99059fF775485246999027B3197955\nNetwork: BSC\n\n📊 RISK ASSESSMENT:\n------------------\nRisk Score: 65/100\nRisk Level: 🟡 MEDIUM\n\n🚨 VULNERABILITY ANALYSIS:\n-------------------------\n• SOURCE_CODE_NOT_VERIFIED\n\n💰 LIQUIDITY ANALYSIS:\n---------------------\nTotal Liquidity: 33142.16049804482 BNB\nUSD Value: ~$9942648.149413446\n\n👥 HOLDER ANALYSIS:\n------------------\nTop 10 holders: 15.0%\n\n🔧 CONTRACT FUNCTIONS:\n---------------------\nTotal Functions: 0\n\n📋 RECOMMENDATION:\n-----------------\n🟡 MEDIUM RISK: Exercise caution. Some concerning indicators.\n",
   "detailed_analysis": {
     "contract_info": {
-      "address": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+      "address": "0x55d398326f99059fF775485246999027B3197955",
       "network": "bsc",
-      "analysis_timestamp": 83777.25
+      "analysis_timestamp": 91722.7795172
     },
     "risk_assessment": {
       "overall_score": 65,
@@ -76,10 +67,10 @@
       "holder_concentration_risk": false
     },
     "liquidity_details": {
-      "pair_address": "0x0eD7e52944161450477ee417DE9Cd3a859b14fD0",
-      "token_reserve": 4086590.1824879195,
-      "bnb_reserve": 14741.046311329974,
-      "lp_total_supply": 216590602614304380352234,
+      "pair_address": "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE",
+      "token_reserve": 12322575.72905784,
+      "bnb_reserve": 16571.08024902241,
+      "lp_total_supply": 204289648071099656762985,
       "top_lp_holders": [
         {
           "address": "0x123...",
@@ -95,21 +86,12 @@
         }
       ],
       "liquidity_locked": {
-        "is_locked": true,
+        "is_locked": false,
         "locked_percentage": 0.0,
-        "locked_balances": [
-          {
-            "lock_contract": "0x407993575c91ce7643a4d4cCACc9A98c36eE1BBE",
-            "locked_amount": 150551182051174437
-          },
-          {
-            "lock_contract": "0xC765bddB93b0D1c1A88282BA0fa6B2d00E3e0c83",
-            "locked_amount": 2528406629216816997
-          }
-        ],
-        "liquidity_safety_score": 0.0012368762905372072
+        "locked_balances": [],
+        "liquidity_safety_score": 0.0
       },
-      "liquidity_safety_score": 0.0012368762905372072
+      "liquidity_safety_score": 0.0
     },
     "holder_details": {
       "total_holders": 2,

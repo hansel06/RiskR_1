@@ -9,6 +9,7 @@ import AnalyticsDashboard from "./pages/analytics-dashboard";
 import SettingsPreferences from "./pages/settings-preferences";
 import AppStartupPreloader from "./pages/app-startup-preloader";
 import NotFound from "./pages/NotFound";
+import RiskRoboLanding from "./pages/RiskRoboLanding";
 
 const Routes = () => {
   return (
@@ -17,7 +18,7 @@ const Routes = () => {
       <ScrollToTop />
       <RouterRoutes>
         {/* Define your routes here */}
-        <Route path="/" element={<AuthenticationPortal />} />
+        <Route path="/" element={<RiskRoboLanding />} />
         <Route path="/authentication-portal" element={<AuthenticationPortal />} />
         <Route path="/ai-research-chat" element={<AIResearchChat />} />
         <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
