@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
+import DeepResearch from "./DeepResearch";
 
 function App() {
+  const [activeTab, setActiveTab] = useState('chat'); // 'chat' or 'research'
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
     { role: "system", content: "You are a helpful assistant." }
@@ -52,7 +54,7 @@ function App() {
     setLoading(false);
   };
 
-  return (
+  const ChatInterface = () => (
     <div style={{
       maxWidth: 600,
       margin: "40px auto",
@@ -162,6 +164,67 @@ function App() {
           </button>
         </div>
       </form>
+    </div>
+  );
+
+  return (
+    <div style={{ fontFamily: "sans-serif" }}>
+      {/* Header with tabs */}
+      <div style={{
+        background: "#fff",
+        borderBottom: "1px solid #eee",
+        padding: "20px 0",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+      }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}>
+          <h1 style={{ textAlign: "center", marginBottom: "20px", color: "#333" }}>
+            🤖 RiskRobo - Smart Contract Analysis Platform
+          </h1>
+          
+          {/* Tab Navigation */}
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "10px"
+          }}>
+            <button
+              onClick={() => setActiveTab('chat')}
+              style={{
+                padding: "12px 24px",
+                borderRadius: "8px",
+                border: "none",
+                background: activeTab === 'chat' ? "#007bff" : "#f8f9fa",
+                color: activeTab === 'chat' ? "#fff" : "#333",
+                fontWeight: "bold",
+                cursor: "pointer",
+                fontSize: "16px"
+              }}
+            >
+              💬 Chat Analysis
+            </button>
+            <button
+              onClick={() => setActiveTab('research')}
+              style={{
+                padding: "12px 24px",
+                borderRadius: "8px",
+                border: "none",
+                background: activeTab === 'research' ? "#007bff" : "#f8f9fa",
+                color: activeTab === 'research' ? "#fff" : "#333",
+                fontWeight: "bold",
+                cursor: "pointer",
+                fontSize: "16px"
+              }}
+            >
+              🔍 Deep Research
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Area */}
+      <div style={{ minHeight: "calc(100vh - 200px)" }}>
+        {activeTab === 'chat' ? <ChatInterface /> : <DeepResearch />}
+      </div>
     </div>
   );
 }

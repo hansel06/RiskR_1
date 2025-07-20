@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 from dotenv import load_dotenv
 from github_scraper import get_github_features, search_github_repo
 from twitter_scraper import get_twitter_features
@@ -21,6 +22,127 @@ HEADERS = {
 
 app = Flask(__name__)
 CORS(app)
+
+def read_scanned_data():
+    """Read the scanned contract data from the file"""
+    try:
+        file_path = r"C:\Users\ashwi\OneDrive\Desktop\Testingggg\Main\scanned.txt"
+        if os.path.exists(file_path):
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            return data
+        else:
+            return None
+    except Exception as e:
+        print(f"Error reading scanned data: {e}")
+        return None
+
+def summarize_contract_analysis(contract_data, user_query=""):
+    """Summarize contract analysis data using AI"""
+    try:
+        API_KEY = os.getenv("OPENROUTER_API_KEY")
+        url = "https://openrouter.ai/api/v1/chat/completions"
+        
+        # Create a comprehensive prompt for contract analysis
+        system_content = f"""You are RiskRobo, an expert smart contract security analyst. You have been provided with detailed analysis data for a smart contract.
+
+CONTRACT ANALYSIS DATA:
+Contract Address: {contract_data.get('contract_address', 'N/A')}
+Risk Score: {contract_data.get('risk_score', 'N/A')}/100
+
+VULNERABILITIES:
+{chr(10).join([f"• {vuln}" for vuln in contract_data.get('vulnerability_flags', [])]) if contract_data.get('vulnerability_flags') else "• No vulnerabilities detected"}
+
+LIQUIDITY ANALYSIS:
+{contract_data.get('liquidity_data', {})}
+
+HOLDER ANALYSIS:
+{contract_data.get('holder_analysis', {})}
+
+CONTRACT FUNCTIONS:
+{contract_data.get('contract_functions', [])}
+
+Your task is to provide a comprehensive, professional analysis of this smart contract. Include:
+
+1. **Risk Assessment**: Evaluate the overall risk level and explain why
+2. **Security Analysis**: Analyze vulnerabilities and security concerns
+3. **Liquidity Analysis**: Assess liquidity health and potential risks
+4. **Holder Distribution**: Evaluate holder concentration and its implications
+5. **Function Analysis**: Review contract functions for suspicious patterns
+6. **Recommendation**: Provide clear, actionable advice
+
+Be specific, professional, and focus on practical insights that would help an investor or trader make informed decisions.
+
+User Query: {user_query if user_query else "Please provide a comprehensive analysis of this contract."}
+"""
+
+        messages = [{"role": "system", "content": system_content}]
+        
+        payload = {
+            "model": "mistralai/mistral-7b-instruct",
+            "messages": messages,
+            "temperature": 0.7
+        }
+        
+        headers = {
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.post(url, headers=headers, json=payload)
+        if response.status_code == 200:
+            return response.json()["choices"][0]["message"]["content"]
+        else:
+            return f"Error: Failed to summarize contract analysis. Status: {response.status_code}"
+            
+    except Exception as e:
+        return f"Error generating summary: {str(e)}"
+
+@app.route('/summarize-contract', methods=['POST'])
+def summarize_contract():
+    """Summarize the scanned contract data using AI"""
+    try:
+        data = request.get_json()
+        user_query = data.get('query', '') if data else ''
+        
+        # Read the scanned data
+        contract_data = read_scanned_data()
+        
+        if not contract_data:
+            return jsonify({
+                "error": "No scanned contract data found. Please run a contract scan first.",
+                "file_path": r"C:\Users\ashwi\OneDrive\Desktop\Testingggg\Main\scanned.txt"
+            }), 404
+        
+        # Generate AI summary
+        summary = summarize_contract_analysis(contract_data, user_query)
+        
+        return jsonify({
+            "summary": summary,
+            "contract_address": contract_data.get('contract_address'),
+            "risk_score": contract_data.get('risk_score'),
+            "timestamp": contract_data.get('detailed_analysis', {}).get('contract_info', {}).get('analysis_timestamp')
+        })
+        
+    except Exception as e:
+        return jsonify({"error": f"Error processing request: {str(e)}"}), 500
+
+@app.route('/get-scanned-data', methods=['GET'])
+def get_scanned_data():
+    """Get the raw scanned contract data"""
+    try:
+        contract_data = read_scanned_data()
+        
+        if not contract_data:
+            return jsonify({
+                "error": "No scanned contract data found. Please run a contract scan first.",
+                "file_path": r"C:\Users\ashwi\OneDrive\Desktop\Testingggg\Main\scanned.txt"
+            }), 404
+        
+        return jsonify(contract_data)
+        
+    except Exception as e:
+        return jsonify({"error": f"Error reading scanned data: {str(e)}"}), 500
 
 def summarize_text(messages, features, model="mistralai/mistral-7b-instruct"):
     import requests, os
